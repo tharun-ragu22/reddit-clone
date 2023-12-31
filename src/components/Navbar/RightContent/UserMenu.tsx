@@ -7,7 +7,7 @@ import {
   MenuItem,
   Icon,
   Flex,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import { User, signOut } from "firebase/auth";
 import React from "react";
@@ -18,16 +18,22 @@ import { IoSparkles } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineLogin } from "react-icons/md";
 import { auth } from "@/firebase/clientApp";
-import { useSetRecoilState } from "recoil";
+import { useResetRecoilState, useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalAtom";
 import { setUncaughtExceptionCaptureCallback } from "process";
+import { CommunityState } from "@/atoms/communityAtoms";
 
 type UserMenuProps = {
   user?: User | null; // User can be uninitialized (?) or null
 };
 
 const UserMenu: React.FC<UserMenuProps> = (props) => {
-    const setAuthModalState = useSetRecoilState(authModalState)
+  const resetCommunityState = useResetRecoilState(CommunityState);
+  const setAuthModalState = useSetRecoilState(authModalState);
+  const logout = async () => {
+    await signOut(auth);
+    resetCommunityState();
+  };
   return (
     <Menu>
       <MenuButton
@@ -47,19 +53,20 @@ const UserMenu: React.FC<UserMenuProps> = (props) => {
                   as={FaRedditSquare}
                 />
                 <Flex
-                    direction="column"
-                    display= {{base: "none", lg: "flex"}}
-                    fontSize={8}
-                    align="flex-start"
-                    mr={8}
+                  direction="column"
+                  display={{ base: "none", lg: "flex" }}
+                  fontSize={8}
+                  align="flex-start"
+                  mr={8}
                 >
-                    <Text fontWeight={700} fontSize={10}>
-                        {props.user?.displayName || props.user?.email?.split("@")[0]}
-                    </Text>
-                    <Flex>
-                        <Icon as={IoSparkles} color="brand.100" mr={1} />
-                        <Text color="gray.400"> 1 karma</Text>
-                    </Flex>
+                  <Text fontWeight={700} fontSize={10}>
+                    {props.user?.displayName ||
+                      props.user?.email?.split("@")[0]}
+                  </Text>
+                  <Flex>
+                    <Icon as={IoSparkles} color="brand.100" mr={1} />
+                    <Text color="gray.400"> 1 karma</Text>
+                  </Flex>
                 </Flex>
               </>
             ) : (
@@ -88,7 +95,7 @@ const UserMenu: React.FC<UserMenuProps> = (props) => {
               color="gray.400"
               fontWeight={700}
               _hover={{ bg: "blue.500", color: "white" }}
-              onClick={() => signOut(auth)}
+              onClick={logout}
             >
               <Flex align="center">
                 <Icon as={MdOutlineLogin} fontSize={20} mr={2} />
@@ -103,7 +110,7 @@ const UserMenu: React.FC<UserMenuProps> = (props) => {
               color="gray.400"
               fontWeight={700}
               _hover={{ bg: "blue.500", color: "white" }}
-              onClick={() => setAuthModalState({ open: true, view: 'login'})}
+              onClick={() => setAuthModalState({ open: true, view: "login" })}
             >
               <Flex align="center">
                 <Icon as={MdOutlineLogin} fontSize={20} mr={2} />
