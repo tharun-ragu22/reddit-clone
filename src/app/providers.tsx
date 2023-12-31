@@ -1,7 +1,7 @@
 // app/providers.tsx
 'use client'
 
-import Layout from "@/components/Layout/Layout"
+import Layout from "../components/Layout/Layout";
 import { ChakraProvider } from "@chakra-ui/react"
 import { theme } from '../chakra/theme'
 import { RecoilRoot } from "recoil"
