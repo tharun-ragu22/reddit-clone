@@ -17,29 +17,53 @@ type CommunityPageProps = {
 };
 
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
-  return (
-    <>
-      <Providers>
-        {/* <h1>Welcome to {communityData.id}</h1> */}
-        {communityData ? (
-          <>
-            <Header communityData={communityData} />
-            <PageContent>
-              <>
-                <CreatePostLink />
-                <Posts communityData={communityData} />
-              </>
-              <>
-                <div>RHS</div>
-              </>
-            </PageContent>
-          </>
-        ) : (
+  if (!communityData) {
+    return (
+      <>
+        <Providers>
           <NotFound />
-        )}
-      </Providers>
-    </>
+        </Providers>
+      </>
+    );
+  }
+
+  return (
+    <Providers>
+      <Header communityData={communityData} />
+      <PageContent>
+        <>
+          <CreatePostLink />
+          <Posts communityData={communityData} />
+        </>
+        <>
+          <div>RHS</div>
+        </>
+      </PageContent>
+    </Providers>
   );
+  // return (
+  //   <>
+  //     <Providers>
+  //       {/* <h1>Welcome to {communityData.id}</h1> */}
+  //       {communityData ? (
+  //         <>
+  //           <Header communityData={communityData} />
+  //           <PageContent>
+  //             <>
+  //               <CreatePostLink />
+  //               <Posts communityData={communityData} />
+  //             </>
+  //             <>
+  //               <div>RHS</div>
+  //             </>
+  //           </PageContent>
+  //         </>
+  //       ) : (
+  //         <NotFound />
+  //       )}
+  //     </Providers>
+  //   </>
+  // );
 };
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
