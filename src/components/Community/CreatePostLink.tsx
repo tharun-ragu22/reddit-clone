@@ -24,9 +24,11 @@ const CreatePostLink: React.FC<CreatePostProps> = () => {
       setAuthModalState({ open: true, view: "login" });
       return;
     }
-    const { community } = router.query;
-    if (community) {
-      router.push(`/r/${router.query.community}/submit`);
+    console.log("router query:", router.query);
+    const { communityId } = router.query;
+    console.log("community:", communityId);
+    if (communityId) {
+      router.push(`/r/${router.query.communityId}/submit`);
       return;
     }
     // Open directory menu to select community to post to

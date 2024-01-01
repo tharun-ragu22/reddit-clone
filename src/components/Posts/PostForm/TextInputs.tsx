@@ -36,7 +36,7 @@ const TextInputs: React.FC<TextInputsProps> = (props) => {
         borderRadius={4}
         value={props.textInputs.body}
         onChange={props.onChange}
-        placeholder="Title"
+        placeholder="Text"
         height="100px"
         _placeholder={{ color: "gray.500" }}
         _focus={{
